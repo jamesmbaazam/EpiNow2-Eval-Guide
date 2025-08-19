@@ -151,7 +151,7 @@ knitr::kable(diagnostics)
 
 ## Evaluating forecast performance
 
-Forecast performance can be evaluated by comparing the forecast of reported cases with the observed cases using Proper Scoring Rules[@gneiting2007strictly;@carvalho2016overview;@] such as the Continuous Ranked Probability Score (CRPS) and Weighted Interval Score (WIS). These are available via the `scoringutils::score()` function.
+Forecast performance can be evaluated by comparing the forecast of reported cases with the observed cases using Proper Scoring Rules[@gneiting2007strictly;@carvalho2016overview] such as the Continuous Ranked Probability Score (CRPS) and Weighted Interval Score (WIS). These are available via the `scoringutils::score()` function.
 
 The `scoringutils::score()` function requires a dataset that contains at least the following columns:
 
@@ -162,7 +162,9 @@ The `scoringutils::score()` function requires a dataset that contains at least t
 
 Let's extract and prepare the forecasts and corresponding observed cases for the evaluation.
 
-EpiNow2's `epinow()` function returns a list of model outputs, including the forecasts. The forecasts are stored in the `out$estimates$forecasts` data.table. This contains the forecasted values for each date, including the median and quantiles (lower and upper bounds).
+EpiNow2's `epinow()` function returns a list of model outputs in the raw and several summarised formats for various use cases. In particular, there are time series of "infections", "reported_cases", "growth_rate", and "R", all grouped into "estimate", "estimate based on partial data", and "forecast".
+
+Here, we're interested in the "forecast" type of the "reported_cases" variable, including the median and quantiles (lower and upper bounds).
 
 ```{r extract-forecasts}
 # Extract the forecasts
@@ -170,11 +172,15 @@ forecasts <- out$estimates$summarised[variable == "reported_cases"][type == "for
     select(-c(mean, sd, variable, strat, type))
 ```
 
-We'll also extract the corresponding observed data and clean up the quantiles into a format suitable for use with `scoringutils`. The `forecasts` data.table contains the forecasted values for each date, including the median and quantiles (lower and upper bounds). The quantiles are stored in columns named `lower_20`, `upper_20`, etc., where the number indicates the quantile level (e.g., 50% for the median).
+Let's also extract the corresponding subset of the observed data.
 ```{r evaluate-forecast}
 # Extract observed cases for the same period
 obs_data <- example_confirmed[date >= min(forecasts$date) & date <= max(forecasts$date)]
+```
 
+Now, let's combine the extracted forecasts with the observed data and clean up the quantiles into a format suitable for use with `scoringutils`. We will be cleaning them up because the `forecasts` data.table labels the quantiles as `lower_20`, `upper_20`, etc., where the number indicates the quantile level (e.g., 50% for the median), but that is not compatible with `scoringutils`.
+
+```{r combine-forecasts-obs}
 # Combine forecasts with observed cases
 eval_dt <- merge(forecasts, obs_data, by = "date")[, true_value := confirm][, confirm := NULL]
 
@@ -207,7 +213,7 @@ setorder(eval_long, quantile) %>%
     head(10)
 ```
 
-Now we can use the `scoringutils` package to compute the scores for the forecasts. By default, a range of scores will be computed, including the interval_score, dispersion, underprediction, overprediction, coverage_deviation,  bias, and ae_median.
+Now we can use the `scoringutils` package to compute and summarise the scores. By default, a range of scores will be computed, including the interval_score, dispersion, underprediction, overprediction, coverage_deviation,  bias, and ae_median.
 
 ```{r scoring}
 scored_scores <- scoringutils::score(eval_long) %>%
@@ -217,13 +223,13 @@ knitr::kable(scored_scores, digits = 3)
 
 ## Interpretation of scores
 
-The table above provides a summary of the forecast performance by metrics. Note that it is hard to make sense of the scores currently as they are not relative to other models. A proper comparison can only be done against other models.
+The table above provides a summary of the forecast performance by metrics. Note that it is not difficult to interpret the scores currently as they are not relative to other models. A proper comparison can only be done against other models.
 
 ::: {.callout-tip}
 
 ### Comparing against a baseline model
 
-A common practice is to have a baseline model [@stapper2025mind], such as a naive model, and compare the scores of the model against the baseline.
+A common practice is to have a baseline model [@stapper2025mind], such as a naive model, and compare the scores of your model against it.
 :::
 
 ## Future updates

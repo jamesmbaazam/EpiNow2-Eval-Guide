@@ -2,7 +2,9 @@
 title: "How to evaluate the 'good of fit' of an EpiNow2 model run"
 author: "James Mba Azam"
 bibliography: index.bib
-format: html
+format:
+  html:
+    theme: solar
 execute:
   eval: true
 editor_options:

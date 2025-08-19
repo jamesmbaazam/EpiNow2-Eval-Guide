@@ -4,7 +4,9 @@ author: "James Mba Azam"
 bibliography: index.bib
 format:
   html:
-    theme: solar
+    theme:
+      light: lux
+      dark: cyborg
 execute:
   eval: true
 editor_options:

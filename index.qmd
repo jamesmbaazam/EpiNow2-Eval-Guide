@@ -226,9 +226,18 @@ The table above provides a summary of the forecast performance by metrics. Note 
 A common practice is to have a baseline model [@stapper2025mind], such as a naive model, and compare the scores of the model against the baseline.
 :::
 
-
 ## Future updates
 
 In future updates, I will explore more advanced techniques for model diagnostics and evaluation, including posterior predictive checks, cross-validation, and more using packages like [`loo`](https://mc-stan.org/loo/), [shinystan](https://mc-stan.org/shinystan/), and `bayesplot`
+
+## Resources
+
+As this is a simple and basic guide, I'll direct you to the following resources for more in-depth information on model diagnostics and forecast evaluation.
+
+- Stan's guide on [How to Diagnose and Resolve Convergence Problems](https://mc-stan.org/learn-stan/diagnostics-warnings.html)
+- [Understanding, evaluating, and improving forecasts of infectious disease burden](nfidd.github.io/ueifid/) open course.
+- scoringutils R package [documentation](https://epiforecasts.io/scoringutils/)
+- scoringRules R package [documentation](https://cran.r-project.org/web/packages/scoringRules/vignettes/article.pdf)
+
 
 ## References

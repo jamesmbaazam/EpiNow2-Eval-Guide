@@ -218,4 +218,9 @@ The table above provides a summary of the forecast performance by metrics. Note 
 A common practice is to have a baseline model [@stapper2025mind], such as a naive model, and compare the scores of the model against the baseline.
 :::
 
+
+## Future updates
+
+In future updates, I will explore more advanced techniques for model diagnostics and evaluation, including posterior predictive checks, cross-validation, and more using packages like [`loo`](https://mc-stan.org/loo/), [shinystan](https://mc-stan.org/shinystan/), and `bayesplot`
+
 ## References

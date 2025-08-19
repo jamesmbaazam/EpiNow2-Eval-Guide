@@ -37,11 +37,15 @@ library(ggplot2)
 
 This is a quick guide on how to assess or evaluate the output of an EpiNow2 model run.
 
-::: {.callout-tip}
+::: {.callout-tip collapse="true"}
 
-### EpiNow2's uses [Stan](https://mc-stan.org/) backend
+### EpiNow2 uses a [Stan](https://mc-stan.org/) backend
 
-`{EpiNow2}` uses the [Stan](https://mc-stan.org/) backend for model specification and inference. This means that the model fit can be assessed using the same tools and techniques used for any Stan model. The EpiNow2 package provides a convenient interface to run the models, but the underlying model is a Stan model. The returned `fit` object is either a [`<stanfit>`](https://mc-stan.org/rstan/reference/stanfit-class.html) or [`CmdStanModel`](https://mc-stan.org/cmdstanr/reference/CmdStanModel.html) object, depending on the backend ([`{rstan}`](https://mc-stan.org/rstan/index.html) or [`{cmdstanr}`](https://mc-stan.org/cmdstanr/index.html)) used. For example, you can use the [`{bayesplot}`](https://mc-stan.org/bayesplot/reference/bayesplot-package.html) and [`{posterior}`](https://mc-stan.org/posterior/) packages to visualize and summarize the model diagnostics.
+`{EpiNow2}` uses [Stan](https://mc-stan.org/) in the backend for model specification, fitting, and inference.
+
+This means that the model fit can be assessed using the same tools and techniques used for any Stan model. The EpiNow2 package provides a convenient interface to run the models, but the underlying model is a Stan model.
+
+The returned `fit` object is either a [`<stanfit>`](https://mc-stan.org/rstan/reference/stanfit-class.html) or [`CmdStanModel`](https://mc-stan.org/cmdstanr/reference/CmdStanModel.html) object, depending on the backend ([`{rstan}`](https://mc-stan.org/rstan/index.html) or [`{cmdstanr}`](https://mc-stan.org/cmdstanr/index.html)) used. For example, you can use the [`{bayesplot}`](https://mc-stan.org/bayesplot/reference/bayesplot-package.html) and [`{posterior}`](https://mc-stan.org/posterior/) packages to visualize and summarize the model diagnostics.
 :::
 
 Evaluating or assessing an `{EpiNow2}` model fit requires a holistic approach involving evaluating the MCMC diagnostics as well as the performance of the forecast against observed data. We will therefore proceed in that regard here.

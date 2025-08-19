@@ -1,5 +1,5 @@
 ---
-title: "How to evaluate the 'good of fit' of an EpiNow2 model run"
+title: "How to evaluate the 'goodness of fit' of an EpiNow2 model run"
 author: "James Mba Azam"
 bibliography: index.bib
 format:
